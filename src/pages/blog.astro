@@ -1,0 +1,33 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const allPosts = Object.values(import.meta.glob("./posts/*.md", { eager: true }));
+---
+
+<BaseLayout title="博客">
+  <section class="space-y-8">
+    <div class="text-center">
+      <p class="text-sm uppercase tracking-[0.35em] text-zinc-500">Blog</p>
+      <h1 class="mt-3 text-4xl font-bold">文章列表</h1>
+      <p class="mt-3 text-zinc-700">一些技术思考、项目复盘与方法记录。</p>
+    </div>
+
+    <ul class="space-y-4">
+      {allPosts.map((post) => (
+        <li class="rounded-2xl border border-white/40 bg-white/50 p-5 transition hover:-translate-y-0.5 hover:bg-white/65">
+          <a href={post.url} class="block">
+            <div class="text-xl font-semibold text-zinc-900">
+              {post.frontmatter.title}
+            </div>
+
+            {post.frontmatter.description && (
+              <p class="mt-2 text-sm leading-7 text-zinc-700">
+                {post.frontmatter.description}
+              </p>
+            )}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+</BaseLayout>
