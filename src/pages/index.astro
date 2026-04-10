@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+const base = import.meta.env.BASE_URL;
 ---
 
 <BaseLayout title="首页">
@@ -25,7 +26,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
     <div class="pt-4">
       <a
-        href="/blog"
+        href="${base}blog/"
         class="inline-block rounded-full bg-zinc-900 px-6 py-3 text-sm font-medium text-white transition hover:scale-[1.02] hover:bg-black"
       >
         查看文章
