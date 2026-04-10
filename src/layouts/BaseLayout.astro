@@ -3,6 +3,9 @@ import "../styles/global.css";
 
 const { title = "My Blog" } = Astro.props;
 const base = import.meta.env.BASE_URL;
+
+const withBase = (path = "") =>
+  `${base.replace(/\/$/, "")}/${path.replace(/^\/+/, "")}`;
 ---
 
 <html lang="zh-CN">
@@ -14,7 +17,7 @@ const base = import.meta.env.BASE_URL;
 
   <body
     class="min-h-screen bg-zinc-900"
-    style={`background-image: url('${base}/images/Xueli_warm_short.jpg'); background-size: cover; background-position: center; background-attachment: fixed;`}
+    style={`background-image: url(withBase('images/Xueli_warm_short.jpg')); background-size: cover; background-position: center; background-attachment: fixed;`}
   >
     <!-- 整体轻微暗化，让背景图别太抢 -->
     <div class="min-h-screen bg-black/25">
@@ -32,8 +35,8 @@ const base = import.meta.env.BASE_URL;
             </div>
 
             <nav class="flex gap-6 text-sm text-zinc-700">
-              <a href={base} class="transition hover:text-black">首页</a>
-              <a href={`${base}/blog/`} class="transition hover:text-black">博客</a>
+              <a href={withBase("")} class="transition hover:text-black">首页</a>
+              <a href={withBase("blog/")} class="transition hover:text-black">博客</a>
             </nav>
           </div>
         </header>
