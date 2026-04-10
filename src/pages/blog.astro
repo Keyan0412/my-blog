@@ -4,7 +4,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 const base = import.meta.env.BASE_URL;
 const allPosts = Object.values(import.meta.glob("./posts/*.md", { eager: true }));
 
-const withBase = (url) => `${base}${String(url).replace(/^\/+/, "")}`;
+const addBase = (url = "") => `${base.replace(/\/$/, "")}${url}`;
 ---
 
 <BaseLayout title="博客">
@@ -16,7 +16,7 @@ const withBase = (url) => `${base}${String(url).replace(/^\/+/, "")}`;
     <ul class="space-y-4">
       {allPosts.map((post) => (
         <li class="rounded-2xl border border-white/40 bg-white/50 p-5 transition hover:bg-white/65">
-          <a href={withBase(post.url)} class="block">
+          <a href={post.url} class="block">
             <div class="text-xl font-semibold text-zinc-900">
               {post.frontmatter.title}
             </div>

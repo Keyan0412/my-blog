@@ -1,6 +1,9 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 const base = import.meta.env.BASE_URL;
+
+const withBase = (path = "") =>
+  `${base.replace(/\/$/, "")}/${path.replace(/^\/+/, "")}`;
 ---
 
 <BaseLayout title="首页">
@@ -19,14 +22,14 @@ const base = import.meta.env.BASE_URL;
     </p>
 
 	<img
-      src=withBase("images/Xueli_warm.jpg")
-      alt="雪莉酱"
+      src={withBase("images/Xueli_warm.jpg")}
+      alt="Cover picture"
       class="mx-auto w-full max-w-2xl rounded-3xl shadow-xl"
     />
 
     <div class="pt-4">
       <a
-        href="${base}/blog/"
+        href={withBase("blog/")}
         class="inline-block rounded-full bg-zinc-900 px-6 py-3 text-sm font-medium text-white transition hover:scale-[1.02] hover:bg-black"
       >
         查看文章
