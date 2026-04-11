@@ -1,0 +1,61 @@
+---
+import "../styles/global.css";
+
+const { title = "Post" } = Astro.props;
+const base = import.meta.env.BASE_URL;
+
+const withBase = (path = "") => {
+  const normalizedBase = base.endsWith("/") ? base : `${base}/`;
+  const normalizedPath = path.replace(/^\/+/, "");
+  return `${normalizedBase}${normalizedPath}`;
+};
+---
+
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+  </head>
+
+  <body
+    class="min-h-screen bg-zinc-900"
+    style={`background-image: url('${withBase("images/Xueli_warm_short.jpg")}'); background-size: cover; background-position: center; background-attachment: fixed;`}
+  >
+    <div class="min-h-screen bg-black/25">
+      <div class="mx-auto min-h-screen max-w-4xl bg-white/55 px-6 py-10 shadow-2xl backdrop-blur-md md:px-10">
+        <header class="mb-10 border-b border-zinc-800/10 pb-6">
+          <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+            <a href={withBase("")} class="text-3xl font-semibold tracking-wide text-zinc-900">
+              可言的博客
+            </a>
+
+            <nav class="flex gap-6 text-sm text-zinc-700">
+              <a href={withBase("")} class="transition hover:text-black">首页</a>
+              <a href={withBase("blog/")} class="transition hover:text-black">博客</a>
+            </nav>
+          </div>
+        </header>
+
+        <article
+          class="prose prose-zinc max-w-none
+                 prose-headings:font-semibold
+                 prose-headings:tracking-tight
+                 prose-h1:mb-6 prose-h1:text-4xl
+                 prose-h2:mt-12 prose-h2:mb-4 prose-h2:text-2xl
+                 prose-h3:mt-8 prose-h3:mb-3 prose-h3:text-xl
+                 prose-p:my-5 prose-p:leading-8
+                 prose-ul:my-5 prose-ol:my-5
+                 prose-li:my-1
+                 prose-blockquote:border-zinc-400
+                 prose-blockquote:text-zinc-700
+                 prose-a:text-blue-700
+                 prose-img:rounded-2xl
+                 prose-pre:rounded-2xl"
+        >
+          <slot />
+        </article>
+      </div>
+    </div>
+  </body>
+</html>
