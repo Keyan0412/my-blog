@@ -1,0 +1,64 @@
+---
+import type { MarkdownHeading } from "astro";
+import OutlineItems from "./OutlineItems.astro";
+
+interface Props {
+  headings: MarkdownHeading[];
+}
+
+const { headings } = Astro.props;
+interface HeadingNode extends MarkdownHeading {
+  children: HeadingNode[];
+}
+const items: HeadingNode[] = [];
+const parents: HeadingNode[] = [];
+for (const heading of headings) {
+  const node: HeadingNode = { ...heading, children: [] };
+  while (parents.length && parents[parents.length - 1].depth >= node.depth) {
+    parents.pop();
+  }
+  const parent = parents[parents.length - 1];
+  (parent ? parent.children : items).push(node);
+  parents.push(node);
+}
+---
+
+{headings.length > 0 && (
+  <aside class="post-outline">
+    <details open>
+      <summary aria-label="展开或折叠文章大纲"></summary>
+      <nav aria-label="文章大纲">
+        <OutlineItems items={items} />
+      </nav>
+    </details>
+  </aside>
+)}
+
+<style>
+  .post-outline {
+    min-width: 0;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    border: 1px solid rgb(255 255 255 / 0.4);
+    border-radius: 1rem;
+    background: rgb(255 255 255 / 0.9);
+    color: #3f3f46;
+    backdrop-filter: blur(12px);
+  }
+  summary { cursor: pointer; font-weight: 600; color: #18181b; }
+  nav {
+    max-height: 60vh;
+    overflow-y: auto;
+    margin-top: 0.75rem;
+    scrollbar-width: thin;
+  }
+  @media (min-width: 1280px) {
+    .post-outline {
+      position: sticky;
+      top: 1.5rem;
+      align-self: start;
+      margin-bottom: 0;
+    }
+    nav { max-height: calc(100vh - 8rem); }
+  }
+</style>

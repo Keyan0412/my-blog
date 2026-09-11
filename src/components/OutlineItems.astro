@@ -1,0 +1,64 @@
+---
+import type { MarkdownHeading } from "astro";
+
+interface HeadingNode extends MarkdownHeading {
+  children: HeadingNode[];
+}
+interface Props {
+  items: HeadingNode[];
+}
+const { items } = Astro.props;
+---
+
+<ul>
+  {items.map((item) => (
+    <li>
+      {item.children.length > 0 ? (
+        <details open>
+          <summary>
+            <a href={`#${encodeURIComponent(item.slug)}`}>{item.text}</a>
+          </summary>
+          <Astro.self items={item.children} />
+        </details>
+      ) : (
+        <a class="leaf" href={`#${encodeURIComponent(item.slug)}`}>{item.text}</a>
+      )}
+    </li>
+  ))}
+</ul>
+
+<style>
+  ul { list-style: none; margin: 0; padding: 0; }
+  details > :global(ul) { margin-left: 0.75rem; }
+  summary {
+    position: relative;
+    padding-left: 1.25rem;
+    list-style: none;
+    cursor: pointer;
+    border-radius: 0.375rem;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary::before {
+    content: "▸";
+    position: absolute;
+    left: 0.25rem;
+    top: 0.375rem;
+    line-height: 1.5;
+    font-size: 0.875rem;
+  }
+  details[open] > summary::before { content: "▾"; }
+  a {
+    display: block;
+    padding: 0.375rem 0.5rem;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+    text-decoration: none;
+  }
+  .leaf { margin-left: 1.25rem; }
+  a:hover, a:focus-visible, summary:focus-visible {
+    color: #1d4ed8;
+    background: #eff6ff;
+  }
+</style>

@@ -1,7 +1,8 @@
 ---
 import "../styles/global.css";
+import TableOfContents from "../components/TableOfContents.astro";
 
-const { title = "Post" } = Astro.props;
+const { title = "Post", headings = [] } = Astro.props;
 const base = import.meta.env.BASE_URL;
 
 const withBase = (path = "") => {
@@ -23,7 +24,9 @@ const withBase = (path = "") => {
     style={`background-image: url('${withBase("images/nanami.jpg")}'); background-size: cover; background-position: center; background-attachment: fixed;`}
   >
     <div class="min-h-screen bg-black/25">
-      <div class="mx-auto min-h-screen max-w-4xl bg-white/80 px-6 py-10 shadow-2xl backdrop-blur-md md:px-10">
+      <div class:list={["post-shell", { "has-outline": headings.length > 0 }]} >
+      <TableOfContents headings={headings} />
+      <div class="min-w-0 min-h-screen bg-white/80 px-6 py-10 shadow-2xl backdrop-blur-md md:px-10">
         <header class="mb-10 border-b border-zinc-800/10 pb-6">
           <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <a href={withBase("")} class="text-3xl font-semibold tracking-wide text-zinc-900">
@@ -56,6 +59,24 @@ const withBase = (path = "") => {
           <slot />
         </article>
       </div>
+      </div>
     </div>
   </body>
 </html>
+
+<style>
+  .post-shell { max-width: 56rem; margin-inline: auto; }
+  article :global(h1[id]), article :global(h2[id]), article :global(h3[id]),
+  article :global(h4[id]), article :global(h5[id]), article :global(h6[id]) {
+    scroll-margin-top: 2rem;
+  }
+  @media (min-width: 1280px) {
+    .post-shell.has-outline {
+      display: grid;
+      grid-template-columns: clamp(20rem, 28vw, 24rem) minmax(0, 56rem);
+      gap: 1.5rem;
+      max-width: 84.5rem;
+      padding-inline: 1.5rem;
+    }
+  }
+</style>
