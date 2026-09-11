@@ -1,0 +1,13 @@
+---
+import { posts } from "../../lib/posts";
+
+// Preserve previously shared URLs after moving articles into category folders.
+export function getStaticPaths() {
+  return posts.map((post) => ({
+    params: { slug: post.file.split("/").pop()!.replace(/\.md$/, "") },
+    props: { destination: post.url! },
+  }));
+}
+
+return Astro.redirect(Astro.props.destination, 301);
+---

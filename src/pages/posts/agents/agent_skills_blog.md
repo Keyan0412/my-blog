@@ -1,5 +1,6 @@
 ---
-layout: ../../layouts/PostLayout.astro
+layout: ../../../layouts/PostLayout.astro
+category: agents
 title: Agent 是否需要 skill
 description: 探究当前前沿 Agent skill 的存在意义
 date: 2026-4-29

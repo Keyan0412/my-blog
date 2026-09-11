@@ -1,25 +1,23 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-
-const base = import.meta.env.BASE_URL;
-const allPosts = Object.values(import.meta.glob("./posts/*.md", { eager: true }));
-
-const addBase = (url = "") => `${base.replace(/\/$/, "")}${url}`;
+import { categories, categoryUrl } from "../lib/categories";
+import { postsInCategory } from "../lib/posts";
 ---
 
-<BaseLayout title="博客">
+<BaseLayout title="博客分类">
   <section class="space-y-8">
-    <div class="text-center">
-      <h1 class="mt-3 text-4xl font-bold">文章列表</h1>
-    </div>
-
-    <ul class="space-y-4">
-      {allPosts.map((post) => (
-        <li class="rounded-2xl border border-white/40 bg-white/50 p-5 transition hover:bg-white/65">
-          <a href={post.url} class="block">
-            <div class="text-xl font-semibold text-zinc-900">
-              {post.frontmatter.title}
+    <ul class="grid gap-4 sm:grid-cols-2">
+      {categories.map((category) => (
+        <li>
+          <a href={categoryUrl(category.slug)} class="block h-full rounded-2xl border border-white/40 bg-white/50 p-5 transition hover:bg-white/75 focus-visible:outline-2 focus-visible:outline-blue-700">
+            <div class="flex items-center gap-3">
+              <svg aria-hidden="true" class="h-6 w-6 shrink-0 text-zinc-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M3 7V5a1 1 0 0 1 1-1h5l2 3h9a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7Z" />
+              </svg>
+              <h2 class="text-xl font-semibold text-zinc-900">{category.title}</h2>
             </div>
+            <p class="mt-3 text-sm leading-6 text-zinc-600">{category.description}</p>
+            <p class="mt-4 text-sm text-zinc-700">{postsInCategory(category.slug).length} 篇文章 →</p>
           </a>
         </li>
       ))}

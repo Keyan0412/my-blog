@@ -1,5 +1,6 @@
 ---
-layout: ../../layouts/PostLayout.astro
+layout: ../../../layouts/PostLayout.astro
+category: papers-algorithms
 title: 论文解析：Reflective Memory Management (RMM)
 description: 解析RMM所面向的问题及其解决方案
 date: 2026-4-11

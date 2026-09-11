@@ -1,8 +1,10 @@
 ---
 import "../styles/global.css";
 import TableOfContents from "../components/TableOfContents.astro";
+import { categories, categoryUrl } from "../lib/categories";
 
 const { title = "Post", headings = [] } = Astro.props;
+const category = categories.find((item) => item.slug === Astro.props.frontmatter?.category);
 const base = import.meta.env.BASE_URL;
 
 const withBase = (path = "") => {
@@ -39,6 +41,14 @@ const withBase = (path = "") => {
             </nav>
           </div>
         </header>
+
+        {category && (
+          <nav aria-label="当前位置" class="mb-6 flex flex-wrap gap-2 text-sm text-zinc-600">
+            <a href={withBase("blog/")} class="hover:text-black">博客分类</a>
+            <span aria-hidden="true">/</span>
+            <a href={categoryUrl(category.slug)} class="hover:text-black">{category.title}</a>
+          </nav>
+        )}
 
         <article
           class="prose prose-zinc max-w-none

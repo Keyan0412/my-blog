@@ -1,5 +1,6 @@
 ---
-layout: ../../layouts/PostLayout.astro
+layout: ../../../layouts/PostLayout.astro
+category: agents
 title: 超长上下文情景下，Agent 应该怎么设计
 description: 反思超长上下文情景下的 Agent 设计
 date: 2026-5-2

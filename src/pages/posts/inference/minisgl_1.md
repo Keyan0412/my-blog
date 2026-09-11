@@ -1,5 +1,6 @@
 ---
-layout: ../../layouts/PostLayout.astro
+layout: ../../../layouts/PostLayout.astro
+category: inference
 title: Mini-SGLang 解析（1）
 description: 解析 Mini-SGLang 的推理基本流程
 date: 2026-9-7
@@ -691,7 +692,7 @@ with self.ctx.forward_batch(batch):
 
 这里禁止嵌套进入 `forward_batch()`，避免一个前向覆盖另一个前向的活动批次。它只管理 `_batch` 的引用，不负责释放 KV Cache，也不是用于隔离多个线程或异步任务的上下文机制。
 
-### 2.5. 全局上下文的设置与获取
+**全局上下文的设置与获取**
 
 ```python
 _GLOBAL_CTX: Context | None = None
@@ -713,21 +714,6 @@ def get_global_ctx() -> Context:
 两个断言分别检查重复设置和未初始化访问。这里的“全局”是当前 Python 进程内的模块全局变量，不是多 GPU 进程之间共享的 Python 对象；各进程仍需初始化自己的上下文。该文件也没有提供重置函数。
 
 需要区分两个生命周期：`_GLOBAL_CTX` 持续保存引擎共享资源，而 `Context._batch` 随每次前向临时设置和清空。退出 `forward_batch()` 只清空当前批次，全局上下文仍然存在。
-
-### 2.6. 从这些结构串起一次推理
-
-以普通、非分块请求为例，相关调用关系如下：
-
-1. Prefill 管理器创建 `Req`，记录输入、命中的缓存长度和输出预算，并组织成 `Batch`。
-2. 调度器准备填充请求、缓存位置、位置张量和 Attention 元数据，在执行前取得本轮 `input_ids`。
-3. 引擎进入 `Context.forward_batch()`，执行模型前向或 CUDA Graph 回放。
-4. 引擎调用 `Req.complete_one()` 推进逻辑长度，采样新 token，并发起到 CPU 的异步复制。
-5. 调度器把 GPU 输出写回 `token_pool`，并按剩余长度维护 Decode 请求集合。
-6. CPU 结果可用后，调度器调用 `append_host()`，判断长度上限与 EOS，返回结果并处理结束请求的资源。
-
-启用重叠调度时，不同批次的上述步骤可以交错执行。这也解释了为什么 `Req` 要将设备侧长度更新与 CPU 序列追加拆开，以及为什么 `Batch` 需要显式保存本轮前向的输入与元数据。
-
-本节对应的源码入口均位于 `python/minisgl/` 下：`core.py` 定义数据结构，`scheduler/prefill.py` 创建请求，`scheduler/scheduler.py` 准备批次并处理返回结果，`engine/engine.py` 执行前向，`engine/graph.py` 负责图执行所需的填充，`layers/attention.py` 展示模型层如何读取上下文。
 
 ## 3. engine.py 解析
 

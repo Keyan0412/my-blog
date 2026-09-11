@@ -1,5 +1,6 @@
 ---
-layout: ../../layouts/PostLayout.astro
+layout: ../../../layouts/PostLayout.astro
+category: engineering
 title: App Infra 系列（一）：中台到底在做什么
 date: 2026-4-14
 tags:

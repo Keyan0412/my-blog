@@ -1,0 +1,37 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { categories } from "../../lib/categories";
+import { postsInCategory } from "../../lib/posts";
+
+export function getStaticPaths() {
+  return categories.map((category) => ({ params: { category: category.slug }, props: { category } }));
+}
+const { category } = Astro.props;
+const posts = postsInCategory(category.slug);
+const blogUrl = `${import.meta.env.BASE_URL.replace(/\/$/, "")}/blog/`;
+---
+
+<BaseLayout title={`${category.title} · 博客`}>
+  <section class="space-y-8">
+    <nav aria-label="当前位置" class="flex flex-wrap gap-2 text-sm text-zinc-600">
+      <a href={blogUrl} class="hover:text-black">博客分类</a>
+      <span aria-hidden="true">/</span>
+      <span aria-current="page">{category.title}</span>
+    </nav>
+    <div>
+      <h1 class="text-3xl font-bold">{category.title}</h1>
+      <p class="mt-3 leading-7 text-zinc-600">{category.description}</p>
+      <p class="mt-2 text-sm text-zinc-500">共 {posts.length} 篇文章</p>
+    </div>
+    <ul class="space-y-4">
+      {posts.map((post) => (
+        <li>
+          <a href={post.url} class="block rounded-2xl border border-white/40 bg-white/50 p-5 transition hover:bg-white/75">
+            <h2 class="text-xl font-semibold text-zinc-900">{post.frontmatter.title}</h2>
+            {post.frontmatter.description && <p class="mt-2 text-sm leading-6 text-zinc-600">{post.frontmatter.description}</p>}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+</BaseLayout>

@@ -1,5 +1,6 @@
 ---
-layout: ../../layouts/PostLayout.astro
+layout: ../../../layouts/PostLayout.astro
+category: agents
 title: Agent 的前世今生
 description: 探究 Agent 的出现及其演化历程
 date: 2026-4-14

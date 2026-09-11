@@ -1,5 +1,6 @@
 ---
-layout: ../../layouts/PostLayout.astro
+layout: ../../../layouts/PostLayout.astro
+category: engineering
 title: 从“写代码”到“做产品”：如何以 SDK 的标准开发一个项目
 date: 2026-4-25
 description: 解释什么是SDK

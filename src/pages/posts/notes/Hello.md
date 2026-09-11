@@ -1,5 +1,6 @@
 ---
-layout: ../../layouts/PostLayout.astro
+layout: ../../../layouts/PostLayout.astro
+category: notes
 title: 哈喽~
 description: 这是我的第一篇文章
 date: 2026-4-10

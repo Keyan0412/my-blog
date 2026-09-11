@@ -1,5 +1,6 @@
 ---
-layout: ../../layouts/PostLayout.astro
+layout: ../../../layouts/PostLayout.astro
+category: papers-algorithms
 title: 公式推导：REINFORCE
 description: 尝试推导出 REINFORCE 算法的参数更新公式
 date: 2026-4-12

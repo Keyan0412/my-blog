@@ -1,5 +1,6 @@
 ---
-layout: ../../layouts/PostLayout.astro
+layout: ../../../layouts/PostLayout.astro
+category: agents
 title: 前沿 Agent 领域的几条演进路线
 description: 探究当前前沿 Agent 的演进路线
 date: 2026-4-17

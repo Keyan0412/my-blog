@@ -1,5 +1,6 @@
 ---
-layout: ../../layouts/PostLayout.astro
+layout: ../../../layouts/PostLayout.astro
+category: engineering
 title: App Infra 系列（三）：编译构建为什么是一条研发生产线
 date: 2026-4-14
 tags:

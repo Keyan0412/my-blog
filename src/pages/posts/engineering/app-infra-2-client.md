@@ -1,5 +1,6 @@
 ---
-layout: ../../layouts/PostLayout.astro
+layout: ../../../layouts/PostLayout.astro
+category: engineering
 title: App Infra 系列（二）：客户端到底在解决什么问题
 date: 2026-4-14
 tags:

@@ -1,5 +1,6 @@
 ---
-layout: ../../layouts/PostLayout.astro
+layout: ../../../layouts/PostLayout.astro
+category: engineering
 title: App Infra 系列导读：把中台、客户端与编译构建拆开来讲
 date: 2026-4-14
 tags:

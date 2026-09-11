@@ -1,5 +1,6 @@
 ---
-layout: ../../layouts/PostLayout.astro
+layout: ../../../layouts/PostLayout.astro
+category: agents
 title: 构建仓库 Agent 的反思
 description: 探究多 Agent 分工的合理模式
 date: 2026-5-1
